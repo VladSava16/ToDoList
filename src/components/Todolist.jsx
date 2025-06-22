@@ -13,7 +13,7 @@ const Todolist = () => {
   function handleSubmit(e){
     e.preventDefault();
 
-    setItems([...items, {text : inputValue, completed : false, id : Date.now()}]);
+    setItems([...items, {text : inputValue, id : Date.now(), completed : false}]);
     setInputValue('');
   }
 
@@ -21,6 +21,16 @@ const Todolist = () => {
     const updatedTasks = items.filter(item => item.id != idToRemove);
 
     setItems(updatedTasks);
+  }
+
+  function handleComplete(idToComplete){
+      const updatedTasks = items.map((item) => {
+          if(item.id === idToComplete)
+              return {...item, completed: !item.completed};
+          return item;
+      })
+
+      setItems(updatedTasks);
   }
 
   return (
@@ -33,7 +43,7 @@ const Todolist = () => {
       <div>
         <ul>
           {items.map((item, index) => (
-            <ToDoItem key={index} task={item} onRemove={handleRemove}/>
+            <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete}/>
           ))}
         </ul>
       </div>    
