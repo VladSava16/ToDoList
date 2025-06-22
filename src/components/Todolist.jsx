@@ -42,13 +42,13 @@ const Todolist = () => {
           <button type="submit" className='whitespace-nowrap text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-orange-300 dark:focus:ring-orange-800 shadow-lg shadow-orange-500/50 dark:shadow-lg dark:shadow-orange-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center'>Add Task</button>
         </form>
       </div>
-      <div className='flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4'>
+      {items.length && <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
         <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
           {items.map((item, index) => (
             <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete}/>
           ))}
         </ul>
-      </div>    
+      </div>   } 
     </div>
   )
 }
