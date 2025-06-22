@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ToDoItem from './ToDoItem';
 
 const Todolist = () => {
   
@@ -12,9 +13,10 @@ const Todolist = () => {
   function handleSubmit(e){
     e.preventDefault();
 
-    setItems([...items, inputValue]);
+    setItems([...items, {text : inputValue, completed : 0}]);
     setInputValue('');
   }
+
 
   return (
     <div>
@@ -26,7 +28,7 @@ const Todolist = () => {
       <div>
         <ul>
           {items.map((item, index) => (
-            <li key={index}>{item}</li>    
+            <ToDoItem text={item.text} key={index} index={index}/>
           ))}
         </ul>
       </div>    
