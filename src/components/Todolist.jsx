@@ -13,10 +13,15 @@ const Todolist = () => {
   function handleSubmit(e){
     e.preventDefault();
 
-    setItems([...items, {text : inputValue, completed : 0}]);
+    setItems([...items, {text : inputValue, completed : false, id : Date.now()}]);
     setInputValue('');
   }
 
+  function handleRemove(idToRemove){
+    const updatedTasks = items.filter(item => item.id != idToRemove);
+
+    setItems(updatedTasks);
+  }
 
   return (
     <div>
@@ -28,7 +33,7 @@ const Todolist = () => {
       <div>
         <ul>
           {items.map((item, index) => (
-            <ToDoItem text={item.text} key={index} index={index}/>
+            <ToDoItem key={index} task={item} onRemove={handleRemove}/>
           ))}
         </ul>
       </div>    
