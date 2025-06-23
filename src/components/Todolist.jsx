@@ -36,8 +36,21 @@ const Todolist = () => {
   }
 
   function handleSortOrderChange(){
-      setSortOrder((sortOrder + 1) % 3);
-      console.log(sortOrder);
+    if(sortOrder == 2)
+      setSortOrder(1);
+    else if(sortOrder == 0)
+      setSortOrder(2);
+    else
+      setSortOrder(2);
+    const updatedTasks = items;  
+    console.log(sortOrder);
+    switch(sortOrder){
+      case 2: {updatedTasks.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); console.log(updatedTasks); break;}
+      default: {updatedTasks.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); console.log(updatedTasks); break;}
+    }
+
+
+    setItems(updatedTasks);
   }
 
   return (
