@@ -43,13 +43,22 @@ const Todolist = () => {
     else
       setSortOrder(2);
     const updatedTasks = items;  
-    console.log(sortOrder);
     switch(sortOrder){
-      case 2: {updatedTasks.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); console.log(updatedTasks); break;}
-      default: {updatedTasks.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); console.log(updatedTasks); break;}
+      case 2: {updatedTasks.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
+      default: {updatedTasks.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
     }
 
 
+    setItems(updatedTasks);
+  }
+
+  const handleEdit = (editedTask) => {
+    const updatedTasks = items.map((item) => {
+      if(item.id == editedTask.id){
+        return editedTask;
+      }
+      return item;
+    })
     setItems(updatedTasks);
   }
 
@@ -69,7 +78,7 @@ const Todolist = () => {
               <SortButton sortOrder={sortOrder}/>
             </div>  
             {items.map((item, index) => (
-              <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete}/>
+              <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
             ))}
           </ul>
         </div>   
