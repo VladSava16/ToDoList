@@ -8,24 +8,24 @@ const Todolist = () => {
   const[items, setItems] = useState([]);
   const[sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
   
-  function handleChange(e){
+  const handleChange = (e) => {
       setInputValue(e.target.value);
   }
 
-  function handleSubmit(e){
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     setItems([...items, {text : inputValue, id : Date.now(), completed : false}]);
     setInputValue('');
   }
 
-  function handleRemove(idToRemove){
+  const handleRemove = (idToRemove) =>{
     const updatedTasks = items.filter(item => item.id != idToRemove);
 
     setItems(updatedTasks);
   }
 
-  function handleComplete(idToComplete){
+  const handleComplete = (idToComplete) => {
       const updatedTasks = items.map((item) => {
           if(item.id === idToComplete)
               return {...item, completed: !item.completed};
@@ -35,7 +35,7 @@ const Todolist = () => {
       setItems(updatedTasks);
   }
 
-  function handleSortOrderChange(){
+  const handleSortOrderChange = () => {
     if(sortOrder == 2)
       setSortOrder(1);
     else if(sortOrder == 0)
