@@ -15,7 +15,6 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
   }
 
   const handleEdit = () => {
-    console.log(`${text} ${newTaskText}`);
     setNewTaskText(text);
     setIsEditing(!isEditing);
   }

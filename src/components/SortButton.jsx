@@ -28,7 +28,7 @@ const SortButton = ({sortOrder, onClick}) => {
 
 
   return (
-    <div className="sortButton flex justify-end">
+    <div className="sortButton flex items-center">
       {sortButtonIcon}
     </div>
   )

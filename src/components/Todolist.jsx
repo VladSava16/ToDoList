@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ToDoItem from './ToDoItem';
-import SortButton from './SortButton';
+import ListHeader from './ListHeader';
 
 const Todolist = () => {
   
@@ -74,11 +74,7 @@ const Todolist = () => {
       {!!items.length && 
         <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
           <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
-            <div className='sortButton'>
-              <div className='sortButtonWrapper'>
-                <SortButton sortOrder={sortOrder} onClick={handleSortOrderChange}/>
-              </div>
-            </div>  
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange}/>
             {items.map((item, index) => (
               <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
             ))}
