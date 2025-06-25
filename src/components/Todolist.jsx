@@ -7,7 +7,8 @@ const Todolist = () => {
   const[inputValue, setInputValue] = useState('');
   const[items, setItems] = useState([]);
   const[sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
-  
+  const[filterBy, setFilterBy] = useState(0); // 0 - All 1 - All Active 2 - Completed
+
   const handleChange = (e) => {
       setInputValue(e.target.value);
   }
@@ -62,6 +63,20 @@ const Todolist = () => {
     setItems(updatedTasks);
   }
 
+  const handleFilterBy = (buttonId) => {
+    switch(buttonId){
+      case 'sortByActiveButton': 
+        console.log(`${buttonId} was pressed`);
+        break;
+      case 'sortByCompletedButton':
+        console.log(`${buttonId} was pressed`);
+        break;
+      case 'sortByAllButton':
+        console.log(`${buttonId} was pressed`);
+        break;
+    }
+  }
+
   return (
     <div className='grid grid-cols-1 m-2 text-zinc-100'>
       <div className='flex flex-col items-center justify-center mb-8'>
@@ -74,7 +89,7 @@ const Todolist = () => {
       {!!items.length && 
         <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
           <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
-            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange}/>
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy}/>
             {items.map((item, index) => (
               <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
             ))}
@@ -86,5 +101,3 @@ const Todolist = () => {
 }
 
 export default Todolist
-
-// initial commit on new branch 
