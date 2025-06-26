@@ -7,7 +7,8 @@ const Todolist = () => {
   const[inputValue, setInputValue] = useState('');
   const[items, setItems] = useState([]);
   const[sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
-  
+  const[filterBy, setFilterBy] = useState(0); // 0 - All 1 - All Active 2 - Completed
+
   const handleChange = (e) => {
       setInputValue(e.target.value);
   }
@@ -62,6 +63,59 @@ const Todolist = () => {
     setItems(updatedTasks);
   }
 
+  const handleFilterBy = (buttonId) => {
+    switch(buttonId){
+      case 'sortByActiveButton': 
+        setFilterBy(1);
+        break;
+      case 'sortByCompletedButton':
+        setFilterBy(2);
+        break;
+      case 'sortByAllButton':
+        setFilterBy(0);
+        break;
+    }
+  }
+
+  let fullListRender;
+  
+  if(items.length > 0){
+    switch(filterBy){
+      case 0: fullListRender = 
+        <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
+          <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
+            {items.map((item, index) => (
+              <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+            ))}
+          </ul>
+        </div>   
+        break; 
+      case 1: fullListRender = 
+        <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
+          <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
+            {items.map((item, index) => {
+              if(!item.completed)
+                return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+            })}
+          </ul>
+        </div>   
+        break;
+      case 2: fullListRender = 
+        <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
+          <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
+            {items.map((item, index) => {
+              if(item.completed)
+                return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+            })}
+          </ul>
+        </div> 
+        break;
+    }
+  } 
+
   return (
     <div className='grid grid-cols-1 m-2 text-zinc-100'>
       <div className='flex flex-col items-center justify-center mb-8'>
@@ -71,15 +125,8 @@ const Todolist = () => {
           <button type="submit" className='whitespace-nowrap text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-orange-300 dark:focus:ring-orange-800 shadow-lg shadow-orange-500/50 dark:shadow-lg dark:shadow-orange-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center'>Add Task</button>
         </form>
       </div>
-      {!!items.length && 
-        <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
-          <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
-            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange}/>
-            {items.map((item, index) => (
-              <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-            ))}
-          </ul>
-        </div>   
+      {
+       fullListRender 
       } 
     </div>
   )
