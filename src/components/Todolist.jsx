@@ -66,11 +66,9 @@ const Todolist = () => {
   const handleFilterBy = (buttonId) => {
     switch(buttonId){
       case 'sortByActiveButton': 
-        console.log(`${buttonId} was pressed`);
         setFilterBy(1);
         break;
       case 'sortByCompletedButton':
-        console.log(`${buttonId} was pressed`);
         setFilterBy(2);
         break;
       case 'sortByAllButton':
@@ -86,7 +84,7 @@ const Todolist = () => {
       case 0: fullListRender = 
         <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
           <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
-            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy}/>
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
             {items.map((item, index) => (
               <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
             ))}
@@ -96,7 +94,7 @@ const Todolist = () => {
       case 1: fullListRender = 
         <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
           <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
-            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy}/>
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
             {items.map((item, index) => {
               if(!item.completed)
                 return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
@@ -107,7 +105,7 @@ const Todolist = () => {
       case 2: fullListRender = 
         <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
           <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4'>
-            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy}/>
+            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
             {items.map((item, index) => {
               if(item.completed)
                 return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
