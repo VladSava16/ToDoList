@@ -117,7 +117,7 @@ const Todolist = () => {
   } 
 
   return (
-    <div className='grid grid-cols-1 m-2 text-zinc-100'>
+    <div className='grid grid-cols-1 m-2 text-zinc-100 gap-8'>
       <div className='flex flex-col items-center justify-center mb-8'>
         <form onSubmit={handleSubmit} className='flex items-center gap-2'>
           <label className='text-zinc-100 whitespace-nowrap text-1g'>Today I have to...</label>
