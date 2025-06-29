@@ -10,6 +10,7 @@ const Todolist = () => {
   const[items, setItems] = useState([]);
   const[sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
   const[filterBy, setFilterBy] = useState(0); // 0 - All 1 - All Active 2 - Completed
+  const[searchQuery, setSearchQuery] = useState('');
 
   const handleChange = (e) => {
       setInputValue(e.target.value);
@@ -79,35 +80,37 @@ const Todolist = () => {
     }
   }
 
+
   let fullListRender;
   
   if(items.length > 0){
     switch(filterBy){
       case 0: fullListRender = 
         <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-          <SearchBar />
+          <SearchBar searchFunction={setSearchQuery}/>
           <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-          {items.map((item, index) => (
-            <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-          ))}
+          {items.map((item, index) => {
+            if(item.text.includes(searchQuery))
+              return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+          })}
         </ul>
         break; 
       case 1: fullListRender = 
         <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-          <SearchBar />
+          <SearchBar searchFunction={setSearchQuery}/>
           <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
           {items.map((item, index) => {
-            if(!item.completed)
+            if(!item.completed && item.text.includes(searchQuery))
               return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
           })}
         </ul>   
         break;
       case 2: fullListRender = 
         <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-          <SearchBar />
+          <SearchBar searchFunction={setSearchQuery}/>
           <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
           {items.map((item, index) => {
-            if(item.completed)
+            if(item.completed && item.text.includes(searchQuery))
               return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
           })}
         </ul>
