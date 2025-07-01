@@ -46,7 +46,7 @@ const Todolist = () => {
       setSortOrder(2);
     else
       setSortOrder(2);
-    const updatedTasks = items;  
+    const updatedTasks = [...items];  
     switch(sortOrder){
       case 2: {updatedTasks.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
       default: {updatedTasks.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
