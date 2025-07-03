@@ -48,12 +48,12 @@ const Todolist = () => {
       setSortOrder(2);
     const updatedTasks = [...items];  
     
-    switch(sortOrder){
-      case 2: {updatedTasks.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
-      default: {updatedTasks.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
-    }
+    // switch(sortOrder){
+    //   case 2: {updatedTasks.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
+    //   default: {updatedTasks.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
+    // }
 
-    setItems(updatedTasks);
+    // setItems(updatedTasks);
   }
 
   const handleEdit = (editedTask) => {
@@ -81,51 +81,74 @@ const Todolist = () => {
   }
 
 
-  let fullListRender;
+  // let fullListRender;
   
-  if(items.length > 0){
-    switch(filterBy){
-      case 0: fullListRender = 
-        <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-          <SearchBar searchFunction={setSearchQuery}/>
-          <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-          {items.map((item, index) => {
-            if(item.text.includes(searchQuery))
-              return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-          })}
-        </ul>
-        break; 
-      case 1: fullListRender = 
-        <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-          <SearchBar searchFunction={setSearchQuery}/>
-          <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-          {items.map((item, index) => {
-            if(!item.completed && item.text.includes(searchQuery))
-              return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-          })}
-        </ul>   
-        break;
-      case 2: fullListRender = 
-        <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-          <SearchBar searchFunction={setSearchQuery}/>
-          <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-          {items.map((item, index) => {
-            if(item.completed && item.text.includes(searchQuery))
-              return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-          })}
-        </ul>
-        break;
+  // if(items.length > 0){
+  //   switch(filterBy){
+  //     case 0: fullListRender = 
+  //       <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
+  //         <SearchBar searchFunction={setSearchQuery}/>
+  //         <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
+  //         {items.map((item, index) => {
+  //           if(item.text.includes(searchQuery))
+  //             return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+  //         })}
+  //       </ul>
+  //       break; 
+  //     case 1: fullListRender = 
+  //       <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
+  //         <SearchBar searchFunction={setSearchQuery}/>
+  //         <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
+  //         {items.map((item, index) => {
+  //           if(!item.completed && item.text.includes(searchQuery))
+  //             return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+  //         })}
+  //       </ul>   
+  //       break;
+  //     case 2: fullListRender = 
+  //       <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
+  //         <SearchBar searchFunction={setSearchQuery}/>
+  //         <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
+  //         {items.map((item, index) => {
+  //           if(item.completed && item.text.includes(searchQuery))
+  //             return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+  //         })}
+  //       </ul>
+  //       break;
+  //   }
+  // } 
+
+  let displayedItems = [...items];
+  switch(sortOrder){
+      case 2: {displayedItems.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
+      default: {displayedItems.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
     }
-  } 
+
+  switch(filterBy){
+    case 1:
+      displayedItems = displayedItems.filter(item => !item.completed);
+      break;
+    case 2:
+      displayedItems = displayedItems.filter(item => item.completed);
+      break;
+    }
+
 
   return (
     <div className='grid grid-cols-1 m-2 text-zinc-100 gap-8'>
       <InputHeader handleSubmit={handleSubmit} handleChange={handleChange} inputValue={inputValue}/>
+      {!!items.length 
+      && 
       <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
-        {
-        fullListRender 
-        } 
-      </div>
+        <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
+           <SearchBar searchFunction={setSearchQuery}/>
+           <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
+           {displayedItems.map((item, index) => {
+             if(item.text.includes(searchQuery))
+               return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+           })}
+         </ul>
+      </div>}
     </div>
   )
 }
