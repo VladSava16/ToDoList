@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import ToDoItem from './ToDoItem';
 import ListHeader from './ListHeader';
 import InputHeader from './InputHeader';
@@ -118,20 +118,25 @@ const Todolist = () => {
   //   }
   // } 
 
-  let displayedItems = [...items];
-  switch(sortOrder){
-      case 2: {displayedItems.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
-      default: {displayedItems.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
-    }
+  const displayedItems = useMemo(() => {
+    let filteredItems = [...items];
+    switch(sortOrder){
+        case 2: {filteredItems.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
+        default: {filteredItems.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
+      }
 
-  switch(filterBy){
-    case 1:
-      displayedItems = displayedItems.filter(item => !item.completed);
-      break;
-    case 2:
-      displayedItems = displayedItems.filter(item => item.completed);
-      break;
+    switch(filterBy){
+      case 1:
+        filteredItems = filteredItems.filter(item => !item.completed);
+        break;
+      case 2:
+        filteredItems = filteredItems.filter(item => item.completed);
+        break;
     }
+    return filteredItems;
+  }, [items, filterBy, sortOrder])
+
+
 
 
   return (
