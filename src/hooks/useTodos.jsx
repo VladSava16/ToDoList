@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export default function useTodos(){
   const[inputValue, setInputValue] = useState('');
@@ -67,7 +67,25 @@ export default function useTodos(){
     }
   }
 
-  return {inputValue, items, sortOrder, filterBy, searchQuery, handleChange, handleSubmit, handleRemove, handleComplete,
+    const displayedItems = useMemo(() => {
+    let filteredItems = [...items];
+    switch(sortOrder){
+        case 1: {filteredItems.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
+        case 2: {filteredItems.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
+      }
+
+    switch(filterBy){
+      case 1:
+        filteredItems = filteredItems.filter(item => !item.completed);
+        break;
+      case 2:
+        filteredItems = filteredItems.filter(item => item.completed);
+        break;
+    }
+    return filteredItems;
+  }, [items, filterBy, sortOrder]);
+
+  return {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete,
     handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
   };
 }

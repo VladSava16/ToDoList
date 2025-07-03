@@ -7,27 +7,10 @@ import useTodos from '../hooks/useTodos';
 
 const Todolist = () => {
   
-  const {inputValue, items, sortOrder, filterBy, searchQuery, handleChange, handleSubmit, handleRemove, handleComplete,
-    handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
+  const {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete, handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
   } = useTodos();
 
-  const displayedItems = useMemo(() => {
-    let filteredItems = [...items];
-    switch(sortOrder){
-        case 1: {filteredItems.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
-        case 2: {filteredItems.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
-      }
 
-    switch(filterBy){
-      case 1:
-        filteredItems = filteredItems.filter(item => !item.completed);
-        break;
-      case 2:
-        filteredItems = filteredItems.filter(item => item.completed);
-        break;
-    }
-    return filteredItems;
-  }, [items, filterBy, sortOrder]);
 
 
 
