@@ -46,14 +46,6 @@ const Todolist = () => {
       setSortOrder(2);
     else
       setSortOrder(2);
-    const updatedTasks = [...items];  
-    
-    // switch(sortOrder){
-    //   case 2: {updatedTasks.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
-    //   default: {updatedTasks.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
-    // }
-
-    // setItems(updatedTasks);
   }
 
   const handleEdit = (editedTask) => {
@@ -80,49 +72,11 @@ const Todolist = () => {
     }
   }
 
-
-  // let fullListRender;
-  
-  // if(items.length > 0){
-  //   switch(filterBy){
-  //     case 0: fullListRender = 
-  //       <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-  //         <SearchBar searchFunction={setSearchQuery}/>
-  //         <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-  //         {items.map((item, index) => {
-  //           if(item.text.includes(searchQuery))
-  //             return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-  //         })}
-  //       </ul>
-  //       break; 
-  //     case 1: fullListRender = 
-  //       <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-  //         <SearchBar searchFunction={setSearchQuery}/>
-  //         <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-  //         {items.map((item, index) => {
-  //           if(!item.completed && item.text.includes(searchQuery))
-  //             return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-  //         })}
-  //       </ul>   
-  //       break;
-  //     case 2: fullListRender = 
-  //       <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-  //         <SearchBar searchFunction={setSearchQuery}/>
-  //         <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-  //         {items.map((item, index) => {
-  //           if(item.completed && item.text.includes(searchQuery))
-  //             return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-  //         })}
-  //       </ul>
-  //       break;
-  //   }
-  // } 
-
   const displayedItems = useMemo(() => {
     let filteredItems = [...items];
     switch(sortOrder){
+        case 1: {filteredItems.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
         case 2: {filteredItems.sort((a, b) => a.text > b.text ? 1: ((b.text > a.text) ? -1 : 0)); break;}
-        default: {filteredItems.sort((a, b) => a.text < b.text ? 1: ((b.text < a.text) ? -1 : 0)); break;}
       }
 
     switch(filterBy){
@@ -150,7 +104,7 @@ const Todolist = () => {
            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
            {displayedItems.map((item, index) => {
              if(item.text.includes(searchQuery))
-               return <ToDoItem key={index} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
+               return <ToDoItem key={item.id} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
            })}
          </ul>
       </div>}
