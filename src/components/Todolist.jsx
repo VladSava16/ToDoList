@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import ToDoItem from './ToDoItem';
 import ListHeader from './ListHeader';
 import InputHeader from './InputHeader';
@@ -9,11 +9,6 @@ const Todolist = () => {
   
   const {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete, handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
   } = useTodos();
-
-
-
-
-
 
   return (
     <div className='grid grid-cols-1 m-2 text-zinc-100 gap-8'>
