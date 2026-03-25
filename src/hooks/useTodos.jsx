@@ -1,8 +1,17 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+
+
 
 export default function useTodos(){
   const[inputValue, setInputValue] = useState('');
-  const[items, setItems] = useState([]);
+  const[items, setItems] = useState(() => {
+    try {
+    const saved = localStorage.getItem("todoItems");
+    return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const[sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
   const[filterBy, setFilterBy] = useState(0); // 0 - All 1 - All Active 2 - Completed
   const[searchQuery, setSearchQuery] = useState('');
@@ -84,6 +93,10 @@ export default function useTodos(){
     }
     return filteredItems;
   }, [items, filterBy, sortOrder]);
+
+  useEffect(() => {
+    localStorage.setItem("todoItems", JSON.stringify(items));
+  }, [items]);
 
   return {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete,
     handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
