@@ -46,23 +46,26 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
   return (
     <li className='flex items-left justify-between py-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50'>
       {isEditing ?
-        <form onSubmit={handleSubmitEdit}>
-          <input type="text" name="newContent" id="newContent" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={newTaskText} onChange={handleChange} onSubmit={handleSubmitEdit}/>
+        <form onSubmit={handleSubmitEdit} className='flex items-center gap-2'>
+          <input type="text" name="newContent" id="newContent" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 h-10 w-full px-3  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={newTaskText} onChange={handleChange} onSubmit={handleSubmitEdit}/>
           <select
             value={newTaskCategory}
             onChange={handleCategoryChange}
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white'
+            className='h-10 px-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white'
           >
             {CATEGORIES.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
+          <button type="submit" className='h-10 whitespace-nowrap text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 font-medium rounded-lg text-sm px-3 py-2'>
+            Save
+          </button>
         </form>
         :
-        <div className='pr-4 min-w-0'>
-          <span className={`${completed ? 'line-through text-gray-400' : 'text-gray-900'} break-words whitespace-normal block`}>{text}</span>
+        <div className='pr-4 min-w-0 flex items-center gap-2'>
+          <span className={`${completed ? 'line-through text-gray-400' : 'text-gray-900'} break-words whitespace-normal`}>{text}</span>
           {category && (
-            <span className={`inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full ${CATEGORY_COLORS[category] ?? 'bg-gray-100 text-gray-600'}`}>
+            <span className={`shrink-0 inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full ${CATEGORY_COLORS[category] ?? 'bg-gray-100 text-gray-600'}`}>
               {category}
             </span>
           )}
