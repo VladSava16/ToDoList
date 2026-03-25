@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react'
-import ToDoItem from './ToDoItem';
+import React from 'react'
 import ListHeader from './ListHeader';
 import InputHeader from './InputHeader';
 import SearchBar from './SearchBar';
 import useTodos from '../hooks/useTodos';
+import TaskList from './TaskList';
 
-const Todolist = () => {
+const App = () => {
   
   const {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete, handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
   } = useTodos();
@@ -24,14 +24,12 @@ const Todolist = () => {
         <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
            <SearchBar searchFunction={setSearchQuery}/>
            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-           {displayedItems.map((item, index) => {
-             if(item.text.includes(searchQuery))
-               return <ToDoItem key={item.id} task={item} onRemove={handleRemove} onCompletion={handleComplete} onSubmitEdit={handleEdit}/>
-           })}
+           <TaskList searchQuery={searchQuery}/>
+           <TaskList displayedItems={displayedItems} searchQuery={searchQuery} handleRemove={handleRemove} handleComplete={handleComplete} handleEdit={handleEdit}/>
          </ul>
       </div>}
     </div>
   )
 }
 
-export default Todolist
+export default App
