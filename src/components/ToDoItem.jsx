@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { CATEGORIES } from '../constants/categories';
 
 const CATEGORY_COLORS = {
   Personal: 'bg-blue-100 text-blue-700',
@@ -12,6 +13,7 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
   const {text, id, completed, category} = task;
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskText, setNewTaskText] = useState(text);
+  const [newTaskCategory, setNewTaskCategory] = useState(category);
 
   const handleRemoveClick = () => {
       onRemove(id);
@@ -23,6 +25,7 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
 
   const handleEdit = () => {
     setNewTaskText(text);
+    setNewTaskCategory(category);
     setIsEditing(!isEditing);
   }
   
@@ -33,15 +36,27 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
   const handleSubmitEdit = (e) => {
     e.preventDefault();
     handleEdit();
-    onSubmitEdit({text: newTaskText, id: id, completed: completed, category});
+    onSubmitEdit({text: newTaskText, id: id, completed: completed, category: newTaskCategory});
   }
 
+  const handleCategoryChange = (e) => {
+    setNewTaskCategory(e.target.value);
+  }
 
   return (
     <li className='flex items-left justify-between py-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50'>
       {isEditing ?
         <form onSubmit={handleSubmitEdit}>
           <input type="text" name="newContent" id="newContent" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={newTaskText} onChange={handleChange} onSubmit={handleSubmitEdit}/>
+          <select
+            value={newTaskCategory}
+            onChange={handleCategoryChange}
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white'
+          >
+            {CATEGORIES.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
         </form>
         :
         <div className='pr-4 min-w-0'>
