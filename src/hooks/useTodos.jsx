@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
-
+import { CATEGORIES } from "../constants/categories";
 
 
 export default function useTodos(){
-  const[inputValue, setInputValue] = useState('');
-  const[items, setItems] = useState(() => {
+  const [inputValue, setInputValue] = useState('');
+  const [items, setItems] = useState(() => {
     try {
     const saved = localStorage.getItem("todoItems");
     return saved ? JSON.parse(saved) : [];
@@ -12,18 +12,23 @@ export default function useTodos(){
       return [];
     }
   });
-  const[sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
-  const[filterBy, setFilterBy] = useState(0); // 0 - All 1 - All Active 2 - Completed
-  const[searchQuery, setSearchQuery] = useState('');
+  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
+  const [filterBy, setFilterBy] = useState(0); // 0 - All 1 - All Active 2 - Completed
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleChange = (e) => {
       setInputValue(e.target.value);
   }
 
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setItems([...items, {text : inputValue, id : Date.now(), completed : false}]);
+    console.log(category);
+    setItems([...items, {text : inputValue, id : Date.now(), completed : false, category: category}]);
     setInputValue('');
   }
 
@@ -98,7 +103,7 @@ export default function useTodos(){
     localStorage.setItem("todoItems", JSON.stringify(items));
   }, [items]);
 
-  return {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete,
-    handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
+  return {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, category, handleChange, handleSubmit, handleRemove, handleComplete,
+    handleSortOrderChange, handleEdit, handleFilterBy, handleCategoryChange, setSearchQuery
   };
 }

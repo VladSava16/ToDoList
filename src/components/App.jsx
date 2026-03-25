@@ -7,7 +7,7 @@ import TaskList from './TaskList';
 
 const App = () => {
   
-  const {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete, handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery
+  const {inputValue, items, sortOrder, filterBy, searchQuery, displayedItems, handleChange, handleSubmit, handleRemove, handleComplete, handleSortOrderChange, handleEdit, handleFilterBy, setSearchQuery, handleCategoryChange, category
   } = useTodos();
 
 
@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <div className='grid grid-cols-1 m-2 text-zinc-100 gap-8'>
-      <InputHeader handleSubmit={handleSubmit} handleChange={handleChange} inputValue={inputValue}/>
+      <InputHeader handleSubmit={handleSubmit} handleChange={handleChange} inputValue={inputValue} category={category} handleCategoryChange={handleCategoryChange}/>
       {!!items.length 
       && 
       <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>

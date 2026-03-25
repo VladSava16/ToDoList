@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 
+const CATEGORY_COLORS = {
+  Personal: 'bg-blue-100 text-blue-700',
+  Work:     'bg-purple-100 text-purple-700',
+  Shopping: 'bg-green-100 text-green-700',
+  Other:    'bg-gray-100 text-gray-600',
+};
+
 const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
   
-  const {text, id, completed} = task;
+  const {text, id, completed, category} = task;
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskText, setNewTaskText] = useState(text);
 
@@ -26,7 +33,7 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
   const handleSubmitEdit = (e) => {
     e.preventDefault();
     handleEdit();
-    onSubmitEdit({text: newTaskText, id: id, completed: completed});
+    onSubmitEdit({text: newTaskText, id: id, completed: completed, category});
   }
 
 
@@ -39,6 +46,11 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
         :
         <div className='pr-4 min-w-0'>
           <span className={`${completed ? 'line-through text-gray-400' : 'text-gray-900'} break-words whitespace-normal block`}>{text}</span>
+          {category && (
+            <span className={`inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full ${CATEGORY_COLORS[category] ?? 'bg-gray-100 text-gray-600'}`}>
+              {category}
+            </span>
+          )}
         </div>
       }
       <div className='flex items-center gap-3 pl-4'>
