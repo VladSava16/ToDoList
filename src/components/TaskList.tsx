@@ -1,7 +1,16 @@
 import React from "react";
 import ToDoItem from "./ToDoItem";
+import { Todo } from "../types";
 
-const TaskList = ({displayedItems, searchQuery, handleRemove, handleComplete, handleEdit}) => {
+interface TaskListProps {
+  displayedItems: Todo[];
+  searchQuery: string;
+  handleRemove: (id: string) => void;
+  handleComplete: (id: string) => void;
+  handleEdit: (editedTask: Todo) => void;
+}
+
+const TaskList = ({displayedItems, searchQuery, handleRemove, handleComplete, handleEdit}: TaskListProps) => {
 
   return (
   <div className="taskList">

@@ -22,9 +22,8 @@ const App = () => {
       && 
       <div className={`flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4`}>
         <ul className='max-w-xl w-full bg-gray-50 rounded-xl shadow-xl p-4 flex flex-col gap-3'>
-           <SearchBar searchFunction={setSearchQuery}/>
+           <SearchBar searchFunction={setSearchQuery} searchQuery={searchQuery}/>
            <ListHeader sortOrder={sortOrder} handleSortOrderChange={handleSortOrderChange} handleFilterBy={handleFilterBy} filterByStatus={filterBy}/>
-           <TaskList searchQuery={searchQuery}/>
            <TaskList displayedItems={displayedItems} searchQuery={searchQuery} handleRemove={handleRemove} handleComplete={handleComplete} handleEdit={handleEdit}/>
          </ul>
       </div>}

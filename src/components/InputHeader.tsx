@@ -1,7 +1,15 @@
 import React from 'react'
 import { CATEGORIES } from '../constants/categories';
 
-const InputHeader = ({handleSubmit, handleChange, inputValue, category, handleCategoryChange}) => {
+interface InputHeaderProps {
+  handleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  inputValue: string;
+  category: string;
+}
+
+const InputHeader = ({handleSubmit, handleChange, inputValue, category, handleCategoryChange}: InputHeaderProps) => {
   return (
     <div className='flex flex-col items-center justify-center mb-8'>
       <form onSubmit={handleSubmit} className='flex items-center gap-2'>
