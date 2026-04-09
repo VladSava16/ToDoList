@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
 import { CATEGORIES } from "../constants/categories";
-
+import { Todo, SortOrder, FilterBy } from "../types";
 
 export default function useTodos(){
-  const [inputValue, setInputValue] = useState('');
-  const [items, setItems] = useState(() => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [items, setItems] = useState<Todo[]>(() => {
     try {
     const saved = localStorage.getItem("todoItems");
     return saved ? JSON.parse(saved) : [];
@@ -12,33 +12,33 @@ export default function useTodos(){
       return [];
     }
   });
-  const [category, setCategory] = useState(CATEGORIES[0]);
-  const [sortOrder, setSortOrder] = useState(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
-  const [filterBy, setFilterBy] = useState(0); // 0 - All 1 - All Active 2 - Completed
-  const [searchQuery, setSearchQuery] = useState('');
+  const [category, setCategory] = useState<string>(CATEGORIES[0]);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(0); // 0 - unsorted; 1 - sorted ascending; 2 - sorted descending
+  const [filterBy, setFilterBy] = useState<FilterBy>(0); // 0 - All 1 - All Active 2 - Completed
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
   }
 
-  const handleCategoryChange = (e) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(category);
-    setItems([...items, {text : inputValue, id : Date.now(), completed : false, category: category}]);
+    setItems([...items, {text : inputValue, id : crypto.randomUUID(), completed : false, category: category}]);
     setInputValue('');
   }
 
-  const handleRemove = (idToRemove) =>{
-    const updatedTasks = items.filter(item => item.id != idToRemove);
+  const handleRemove = (idToRemove: string) =>{
+    const updatedTasks = items.filter(item => item.id !== idToRemove);
 
     setItems(updatedTasks);
   }
 
-  const handleComplete = (idToComplete) => {
+  const handleComplete = (idToComplete: string) => {
       const updatedTasks = items.map((item) => {
           if(item.id === idToComplete)
               return {...item, completed: !item.completed};
@@ -57,17 +57,17 @@ export default function useTodos(){
       setSortOrder(2);
   }
 
-  const handleEdit = (editedTask) => {
+  const handleEdit = (editedTask: Todo) => {
     const updatedTasks = items.map((item) => {
-      if(item.id == editedTask.id){
+      if(item.id === editedTask.id)
         return editedTask;
-      }
+      
       return item;
     })
     setItems(updatedTasks);
   }
 
-  const handleFilterBy = (buttonId) => {
+  const handleFilterBy = (buttonId: string) => {
     switch(buttonId){
       case 'sortByActiveButton': 
         setFilterBy(1);
