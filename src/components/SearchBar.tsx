@@ -1,13 +1,18 @@
 import React from 'react'
 
-const SearchBar = ({searchFunction, searchQuery}) => {
+interface SearchBarProps {
+  searchFunction: (query: string) => void;
+  searchQuery: string;
+}
+
+const SearchBar = ({searchFunction, searchQuery}: SearchBarProps) => {
   
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     searchFunction(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
   }
 

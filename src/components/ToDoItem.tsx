@@ -41,7 +41,7 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}: ToDoItemProps) =
     setNewTaskText(e.target.value);
   }
 
-  const handleSubmitEdit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitEdit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleEdit();
     onSubmitEdit({text: newTaskText, id: id, completed: completed, category: newTaskCategory});
