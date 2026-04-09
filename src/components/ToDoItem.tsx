@@ -1,19 +1,27 @@
 import React, { useState } from 'react'
 import { CATEGORIES } from '../constants/categories';
+import { Todo } from '../types';
 
-const CATEGORY_COLORS = {
+interface ToDoItemProps {
+  task: Todo;
+  onRemove: (id: string) => void;
+  onCompletion: (id: string) => void;
+  onSubmitEdit: (editedTask: Todo) => void;
+}
+
+const CATEGORY_COLORS: Record<string, string> = {
   Personal: 'bg-blue-100 text-blue-700',
   Work:     'bg-purple-100 text-purple-700',
   Shopping: 'bg-green-100 text-green-700',
   Other:    'bg-gray-100 text-gray-600',
 };
 
-const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
+const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}: ToDoItemProps) => {
   
   const {text, id, completed, category} = task;
-  const [isEditing, setIsEditing] = useState(false);
-  const [newTaskText, setNewTaskText] = useState(text);
-  const [newTaskCategory, setNewTaskCategory] = useState(category);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [newTaskText, setNewTaskText] = useState<string>(text);
+  const [newTaskCategory, setNewTaskCategory] = useState<string>(category);
 
   const handleRemoveClick = () => {
       onRemove(id);
@@ -29,17 +37,17 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
     setIsEditing(!isEditing);
   }
   
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTaskText(e.target.value);
   }
 
-  const handleSubmitEdit = (e) => {
+  const handleSubmitEdit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleEdit();
     onSubmitEdit({text: newTaskText, id: id, completed: completed, category: newTaskCategory});
   }
 
-  const handleCategoryChange = (e) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setNewTaskCategory(e.target.value);
   }
 
@@ -48,7 +56,7 @@ const ToDoItem = ({task, onRemove, onCompletion, onSubmitEdit}) => {
       {isEditing ?
         <div className='pr-4 min-w-0 flex-1'>
           <form onSubmit={handleSubmitEdit} className='flex items-center gap-2'>
-            <input type="text" name="newContent" id="newContent" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 min-w-0 px-3 flex-1 h-9 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={newTaskText} onChange={handleChange} onSubmit={handleSubmitEdit}/>
+            <input type="text" name="newContent" id="newContent" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 min-w-0 px-3 flex-1 h-9 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={newTaskText} onChange={handleChange}/>
             <select
               value={newTaskCategory}
               onChange={handleCategoryChange}
